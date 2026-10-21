@@ -1,0 +1,43 @@
+# Vibe Graph configuration — see https://github.com/vibegraph/vibe-graph for the schema.
+project:
+  name: vibe-graph-monorepo
+
+subsystemDetection:
+  # 'auto' detects from monorepo packages or src/<dir> heuristics.
+  # 'manual' uses only the subsystems list below.
+  # 'hybrid' uses manual entries with auto fallback for unmatched files.
+  mode: auto
+
+# Add explicit subsystem definitions if 'auto' detection isn't sufficient.
+# NOTE: this repo curates subsystems via .vibegraph/subsystems/*.yml, which
+# SHADOW any inline subsystems[] entries here (core-subsystems.ts docs branch
+# runs whenever subsystem docs exist, regardless of subsystemDetection.mode).
+# The core-engine / core-extractor split lives in
+# .vibegraph/subsystems/core-engine.yml + core-extractor.yml.
+# subsystems:
+#   - id: auth
+#     title: Authentication
+#     layer: domain  # 'domain' | 'horizontal' | 'infra' | 'external' | 'unknown'
+#     match:
+#       - src/auth/**
+
+rules:
+  - kind: edge-pattern
+    id: core-neutrality
+    title: "Neutral engine must not import the code extractor"
+    severity: high
+    mode: advisory
+    from: { subsystem: core-engine }
+    to: { subsystem: core-extractor }
+    relation: imports
+    forbidden: true
+    description: >
+      Dogfood: the engine must not import the extractor. The neutral core (graph shape,
+      analytics, drift loop, overview) must not depend on the code extractor.
+      The barrel packages/core/src/index.ts intentionally matches no subsystem doc,
+      so the rule does not fire on its legal re-export of both worlds.
+
+# Override detector thresholds (defaults: fan-out=6, fan-in=8).
+# detectors:
+#   core/fan-out:
+#     threshold: 10

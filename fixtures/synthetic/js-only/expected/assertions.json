@@ -1,0 +1,8 @@
+{
+  "mustHaveEdges": [
+    ["file:src/consumer.js", "file:src/main.js", "imports"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": []
+}

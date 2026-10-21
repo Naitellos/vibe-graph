@@ -1,0 +1,6 @@
+id: beta
+title: Beta
+layer: domain
+match: src/b.ts
+consumed_by:
+  - alpha

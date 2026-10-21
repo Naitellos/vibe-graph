@@ -1,0 +1,17 @@
+{
+  "mustHaveEdges": [
+    ["file:src/importer-01.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-02.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-03.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-04.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-05.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-06.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-07.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-08.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-09.ts", "file:src/shared.ts", "imports"],
+    ["file:src/importer-10.ts", "file:src/shared.ts", "imports"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": []
+}

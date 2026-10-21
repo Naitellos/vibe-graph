@@ -1,0 +1,22 @@
+id: mcp
+title: "@vibegraph/mcp"
+layer: domain
+status: shipped
+description: |
+  Model Context Protocol server exposing 6 tools:
+  `get_project_overview`, `get_subsystem`, `get_blast_radius`, `get_context_pack`
+  (v0) and `get_subsystem_doc`, `validate_drift` (v1). Wraps @vibegraph/core's
+  snapshot reader. Stdio transport.
+last_verified: "2026-05-26"
+verified_by: claude-opus-4-7
+match:
+  - packages/mcp/**
+depends_on:
+  - core-engine
+  - core-extractor
+consumed_by:
+  - cli
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

@@ -1,0 +1,28 @@
+{
+  "name": "vibe-graph",
+  "owner": {
+    "name": "Naitellos"
+  },
+  "plugins": [
+    {
+      "name": "vibe-graph",
+      "description": "Catches your AI the moment it tangles your architecture — a new cross-subsystem coupling or cycle — right in the edit loop. Local-first, evidence-based, no account. MCP tools (prepare_task / validate_diff) + an after-edit conformance hook + LLM onboarding.",
+      "author": {
+        "name": "Naitellos"
+      },
+      "source": "./packages/plugin",
+      "category": "development",
+      "homepage": "https://github.com/Naitellos/vibe-graph",
+      "keywords": [
+        "vibe-graph",
+        "architecture",
+        "mcp",
+        "preflight",
+        "conformance",
+        "drift-detection",
+        "onboarding",
+        "typescript"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+/*
+ * Global form-control theming.
+ *
+ * Text inputs, textareas, and selects in the cockpit (Change form, Filters)
+ * otherwise render as bright native controls on the dark theme. Style them by
+ * element so every form control matches without per-component churn. Buttons
+ * are intentionally NOT globalized (too many bespoke ones) — opt in via .vg-button.
+ */
+
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input:not([type]),
+textarea,
+select {
+  background: var(--surface, #17152a);
+  color: var(--fg, #e8e3d1);
+  border: 1px solid var(--border, #2c2a44);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 13px;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+input:not([type]):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-primary, #d4a574);
+}
+
+textarea {
+  resize: vertical;
+}
+
+select {
+  cursor: pointer;
+}
+
+::placeholder {
+  color: var(--fg, #e8e3d1);
+  opacity: 0.45;
+}
+
+/* Opt-in themed button — matches the dark surface treatment of inputs. */
+.vg-button {
+  background: var(--surface, #17152a);
+  color: var(--fg, #e8e3d1);
+  border: 1px solid var(--border, #2c2a44);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.vg-button:hover:not(:disabled) {
+  border-color: var(--accent-primary, #d4a574);
+}
+
+.vg-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

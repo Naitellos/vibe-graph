@@ -1,0 +1,16 @@
+{
+  "mustHaveEdges": [
+    ["subsystem:@fixture/alpha", "file:packages/alpha/src/index.ts", "contains"],
+    ["subsystem:@fixture/beta", "file:packages/beta/src/index.ts", "contains"],
+    ["subsystem:@fixture/gamma", "file:packages/gamma/src/index.ts", "contains"],
+    ["subsystem:@fixture/beta", "subsystem:@fixture/alpha", "depends_on"]
+  ],
+  "mustHaveFindings": [
+    { "type": "orphan", "involvedNodeIds": ["subsystem:@fixture/gamma"] }
+  ],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": [
+    { "type": "orphan", "involvedNodeIds": ["subsystem:@fixture/alpha"] },
+    { "type": "orphan", "involvedNodeIds": ["subsystem:@fixture/beta"] }
+  ]
+}

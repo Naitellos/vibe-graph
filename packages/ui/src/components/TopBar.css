@@ -1,0 +1,37 @@
+/* TopBar — horizontal header with project name, scan status, and theme toggle. */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: color-mix(in srgb, var(--bg, #0e0d18) 90%, var(--fg, #e8e3d1) 10%);
+  border-bottom: 1px solid color-mix(in srgb, var(--fg, #e8e3d1) 12%, transparent 88%);
+  min-height: 2.5rem;
+  flex-shrink: 0;
+}
+
+.topbar__project-name {
+  font-family: var(--font-display, inherit);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg, #e8e3d1);
+}
+
+.topbar__separator {
+  color: var(--fg, #e8e3d1);
+  opacity: 0.35;
+  user-select: none;
+  font-size: 0.95rem;
+}
+
+.topbar .scan-status-badge {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  color: var(--fg, #e8e3d1);
+}
+
+.topbar > :last-child {
+  /* push theme toggle to the right edge */
+  margin-left: auto;
+}

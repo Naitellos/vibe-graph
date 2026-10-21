@@ -1,0 +1,47 @@
+id: core-engine
+title: "core · neutral engine (graph, rules, drift, overview)"
+layer: domain
+status: shipped
+description: |
+  The neutral half of @codearch/core (product-definition §8.5): everything
+  that consumes an already-built graph, with no knowledge of how it was
+  extracted. Owns:
+  - Graph shape + edge taxonomy (graph/), schemas (schema/)
+  - Rules engine (rules/) incl. builtin rules
+  - Detectors: cycles, fan-in/out, orphans, drift (detectors/)
+  - Overview builder (overview/), diff/working-graph (diff/)
+  - Snapshot reader/writer + baseline stores (snapshot/, helpers/)
+  - Config + SubsystemDoc loaders (config/), task helpers (tasks/), errors (errors/)
+
+  Must NOT import the code extractor (scan/, analyzers/) — checked by the
+  advisory core-neutrality rule (2 known violations) in .vibegraph/config.yml. The barrel
+  packages/core/src/index.ts legally re-exports both worlds and is
+  intentionally unmatched by any subsystem doc.
+last_verified: "2026-07-12"
+verified_by: claude-fable-5
+match:
+  - packages/core/src/graph/**
+  - packages/core/src/rules/**
+  - packages/core/src/overview/**
+  - packages/core/src/diff/**
+  - packages/core/src/detectors/**
+  - packages/core/src/snapshot/**
+  - packages/core/src/schema/**
+  - packages/core/src/tasks/**
+  - packages/core/src/errors/**
+  - packages/core/src/helpers/**
+  - packages/core/src/config/**
+depends_on: []
+# NOTE: cli/mcp/ui consume this subsystem only through the package barrel
+# (packages/core/src/index.ts), which is intentionally unowned — so their
+# declared depends_on has no file-level AST evidence and shows as drift:stale.
+# Known modeling limitation, accepted for the §8.5 boundary dogfood.
+consumed_by:
+  - core-extractor
+  - cli
+  - mcp
+  - ui
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

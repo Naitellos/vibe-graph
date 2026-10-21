@@ -1,0 +1,8 @@
+{
+  "mustHaveEdges": [
+    ["file:src/consumer.ts", "file:src/types.ts", "imports"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": []
+}

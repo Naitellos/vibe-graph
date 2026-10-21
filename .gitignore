@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+# npm pack artifacts
+*.tgz
+
+# Playwright MCP cache
+.playwright-mcp/
+.next/
+.nuxt/
+.cache/
+
+# Test / coverage
+coverage/
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+# Vibe Graph runtime
+.vibegraph/cache/
+.vibegraph/logs/
+
+# Brainstorming session artifacts
+.superpowers/
+
+# Local-only git worktrees
+.worktrees/
+
+# IDE / OS
+.DS_Store
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Claude Code local-only settings
+.claude/settings.local.json
+
+# Project-local MCP wiring — varies by developer (npx vs local dist vs published).
+# Each contributor crafts their own; e.g. for local dev:
+#   { "mcpServers": { "vibegraph": { "command": "node",
+#       "args": ["packages/cli/dist/bin.js", "mcp"] } } }
+# Or once published to npm:
+#   { "mcpServers": { "vibegraph": { "command": "npx",
+#       "args": ["-y", "@codearch/cli", "mcp"] } } }
+.mcp.json
+# …but the plugin ships its own .mcp.json (the MCP-server declaration) — must be tracked.
+!packages/plugin/.mcp.json
+
+# fire-rate experiment output (scripts/fire-rate.mjs)
+.fire-rate/

@@ -1,0 +1,27 @@
+id: cli
+title: vibe-graph (cli)
+layer: domain
+status: shipped
+description: |
+  The user-facing CLI (vibe-graph). Commands: `init`, `scan`, `cockpit`
+  (default), `mcp`, `doctor`, `check`, `impact`, `context`. Cockpit HTTP
+  server serves the ui bundle and REST API. The --root flag scopes
+  operations to a target project. MCP subcommand spawns an in-process MCP
+  server over stdio.
+last_verified: "2026-05-26"
+verified_by: claude-opus-4-7
+match:
+  - packages/cli/**
+depends_on:
+  - core-engine
+  - core-extractor
+  - mcp
+# NOTE: cli does NOT depend_on ui. The cockpit bundles ui's *built assets*
+# (dist/ui) and serves them over HTTP — a packaging/runtime relationship, not a
+# code import. Modeling it as depends_on would falsely fire drift:stale +
+# no-layer-violation (domain→horizontal). See ui.yml for the matching note.
+consumed_by: []
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

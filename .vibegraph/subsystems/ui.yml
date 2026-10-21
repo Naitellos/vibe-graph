@@ -1,0 +1,26 @@
+id: ui
+title: "@vibegraph/ui"
+layer: horizontal
+status: shipped
+description: |
+  React 19 cockpit UI. Renders the project graph (SVG canvas), node detail
+  panel (rich for curated subsystems via SubsystemDocView), findings list
+  with Drift filter, and onboarding banner. Uses SWR + Zustand for state.
+  Components consume the cockpit REST API exposed by vibe-graph (cli).
+last_verified: "2026-05-26"
+verified_by: claude-opus-4-7
+match:
+  - packages/ui/**
+depends_on:
+  - core-engine
+# NOTE: no `consumed_by: [cli]`. The CLI does not import @vibegraph/ui as a
+# module — it bundles ui's *built assets* at build time (dist/ui) and serves
+# them over HTTP at runtime (see packages/cli/src/server/ui-assets.ts). That is
+# a packaging/runtime relationship, not a code dependency, so it is intentionally
+# not modeled as a depends_on edge (which would falsely fire drift:stale +
+# no-layer-violation). The relationship is documented in prose here and in cli.yml.
+consumed_by: []
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

@@ -1,0 +1,19 @@
+id: plugin
+title: "@vibegraph/plugin"
+layer: external
+status: shipped
+description: |
+  Claude Code marketplace plugin for LLM-driven onboarding. Markdown-only
+  workspace - no TypeScript. Provides `/vibe-graph-onboard` slash command
+  and `vibe-graph-onboarding` skill. Distributed as a tarball attached to
+  GitHub Releases.
+last_verified: "2026-05-26"
+verified_by: claude-opus-4-7
+match:
+  - packages/plugin/**
+depends_on: []
+consumed_by: []
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

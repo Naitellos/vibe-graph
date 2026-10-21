@@ -1,0 +1,24 @@
+{
+  "mustHaveEdges": [
+    ["subsystem:payments", "subsystem:auth", "depends_on"],
+    ["subsystem:dashboard", "subsystem:auth", "depends_on"],
+    ["subsystem:dashboard", "subsystem:payments", "depends_on"],
+    ["subsystem:payments", "table:payment_transactions", "owns"],
+    ["subsystem:payments", "table:subscription_plans", "owns"],
+    ["subsystem:auth", "table:users", "owns"],
+    ["subsystem:payments", "file:src/payments/transactions.ts", "contains"],
+    ["subsystem:payments", "file:src/payments/subscriptions.ts", "contains"],
+    ["subsystem:auth", "file:src/auth/jwt.ts", "contains"],
+    ["subsystem:dashboard", "file:src/dashboard/view.tsx", "contains"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": [
+    { "type": "stale", "involvedNodeIds": ["subsystem:payments", "subsystem:auth"] },
+    { "type": "stale", "involvedNodeIds": ["subsystem:dashboard", "subsystem:auth"] },
+    { "type": "stale", "involvedNodeIds": ["subsystem:dashboard", "subsystem:payments"] },
+    { "type": "undeclared", "involvedNodeIds": ["subsystem:payments", "subsystem:auth"] },
+    { "type": "undeclared", "involvedNodeIds": ["subsystem:dashboard", "subsystem:auth"] },
+    { "type": "undeclared", "involvedNodeIds": ["subsystem:dashboard", "subsystem:payments"] }
+  ]
+}

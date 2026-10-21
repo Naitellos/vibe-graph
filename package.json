@@ -1,0 +1,46 @@
+{
+  "name": "vibe-graph-monorepo",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "@hono/node-server": "~2.0.11",
+      "brace-expansion@^2.0.0": "5.0.8",
+      "brace-expansion@^5.0.0": "5.0.8",
+      "bundle-require>esbuild": "~0.28.1",
+      "form-data": "~4.0.6",
+      "js-yaml@^3.0.0": "3.15.0",
+      "js-yaml@^4.0.0": "4.3.0",
+      "postcss": "~8.5.18",
+      "tsup>esbuild": "~0.28.1"
+    }
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @codearch/core --filter @codearch/mcp --filter @codearch/ui build && pnpm --filter @codearch/cli build",
+    "vg:setup": "pnpm build && node packages/cli/dist/bin.js scan && node packages/cli/dist/bin.js baseline",
+    "dev": "pnpm -r --parallel dev",
+    "test": "pnpm build && VIBEGRAPH_TEST_SKIP_BUILDS=1 vitest run --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:unit": "vitest run --project unit --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:fixtures": "vitest run --project fixtures --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:mcp": "vitest run --project mcp --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:ui": "vitest run --project ui --passWithNoTests --minWorkers=1 --maxWorkers=2 && pnpm --filter @codearch/ui test:e2e",
+    "test:e2e": "vitest run --project e2e --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:smoke": "vitest run --project smoke --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "test:invariants": "vitest run --project invariants --passWithNoTests --minWorkers=1 --maxWorkers=2",
+    "lint": "biome ci .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "pnpm -r typecheck",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "~1.9.0",
+    "@changesets/cli": "~2.31.1",
+    "@vitest/coverage-v8": "~3.2.6",
+    "typescript": "~5.6.0",
+    "vitest": "~3.2.6"
+  }
+}

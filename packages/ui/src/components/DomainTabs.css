@@ -1,0 +1,32 @@
+/* Finding-domain filter chips. Wrap gracefully in the narrow left panel. */
+.domain-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 8px;
+}
+
+.domain-tabs button {
+  background: var(--surface, #17152a);
+  color: var(--fg, #e8e3d1);
+  border: 1px solid var(--border, #2c2a44);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+  opacity: 0.7;
+  white-space: nowrap;
+  transition: opacity 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.domain-tabs button:hover {
+  opacity: 1;
+}
+
+.domain-tabs button[data-active="true"] {
+  opacity: 1;
+  border-color: var(--accent-primary, #d4a574);
+  color: var(--accent-primary, #d4a574);
+}

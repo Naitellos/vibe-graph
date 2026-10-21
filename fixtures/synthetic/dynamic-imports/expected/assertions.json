@@ -1,0 +1,10 @@
+{
+  "mustHaveEdges": [
+    ["file:src/loader.ts", "file:src/lazy.ts", "imports"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": [
+    { "type": "cycle", "involvedNodeIds": ["file:src/loader.ts", "file:src/lazy.ts"] }
+  ]
+}

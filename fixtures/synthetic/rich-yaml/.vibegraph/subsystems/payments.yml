@@ -1,0 +1,25 @@
+id: payments
+title: Payments
+layer: domain
+status: shipped
+description: |
+  Payments handles transaction processing via Stripe and subscription lifecycle.
+  Core module under `src/payments/`.
+  Owns `payment_transactions` and `subscription_plans` tables.
+last_verified: "2026-05-26"
+verified_by: claude-sonnet-4-7
+match:
+  - src/payments/**
+depends_on:
+  - auth
+consumed_by:
+  - dashboard
+schema_tables:
+  - payment_transactions
+  - subscription_plans
+related_specs:
+  - docs/specs/2026-05-16-payments.md
+related_decisions:
+  - docs/architecture/decisions/0007-stripe-integration.md
+memory_refs:
+  - monetization-details

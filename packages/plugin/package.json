@@ -1,0 +1,16 @@
+{
+  "name": "@codearch/plugin",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Claude Code marketplace plugin for Vibe Graph LLM-driven onboarding.",
+  "license": "MIT",
+  "files": [".claude-plugin", "commands", "skills", "README.md"],
+  "scripts": {
+    "build": "echo 'plugin is markdown-only; nothing to build'",
+    "typecheck": "echo 'no TS in plugin workspace'",
+    "test": "pnpm -w exec vitest run --passWithNoTests --minWorkers=1 --maxWorkers=2 packages/plugin"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

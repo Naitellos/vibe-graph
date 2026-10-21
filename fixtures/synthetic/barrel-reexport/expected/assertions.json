@@ -1,0 +1,11 @@
+{
+  "mustHaveEdges": [
+    ["file:src/consumer.ts", "file:src/index.ts", "imports"],
+    ["file:src/index.ts", "file:src/internal.ts", "imports"]
+  ],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [
+    ["file:src/consumer.ts", "file:src/internal.ts", "imports"]
+  ],
+  "mustNotHaveFindings": []
+}

@@ -1,0 +1,47 @@
+/* Shared detail-panel styling: key–value lists + the overview "Top hubs" list. */
+
+/* Definition list rendered as aligned label → value rows (label left, value right). */
+.vg-kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1rem;
+  row-gap: 0.3rem;
+  margin: 0.6rem 0;
+}
+
+.vg-kv dt {
+  opacity: 0.65;
+  font-size: 0.85em;
+  align-self: center;
+}
+
+.vg-kv dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Top hubs — clickable, select the subsystem in the graph + detail panel. */
+.overview-hubs {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0;
+}
+
+.overview-hub {
+  display: inline-block;
+  background: transparent;
+  border: none;
+  color: var(--accent-info, #74a5d4);
+  padding: 2px 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.overview-hub:hover,
+.overview-hub:focus-visible {
+  text-decoration: underline;
+  color: var(--accent-primary, #d4a574);
+  outline: none;
+}

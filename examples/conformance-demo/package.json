@@ -1,0 +1,7 @@
+{
+  "name": "conformance-demo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Tiny demo project — watch vibe-graph catch an AI tangling the architecture."
+}

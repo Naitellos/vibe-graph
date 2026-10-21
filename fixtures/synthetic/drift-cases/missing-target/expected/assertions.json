@@ -1,0 +1,8 @@
+{
+  "mustHaveEdges": [],
+  "mustHaveFindings": [
+    { "type": "stale", "involvedNodeIds": ["subsystem:alpha", "subsystem:ghost"] }
+  ],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": []
+}

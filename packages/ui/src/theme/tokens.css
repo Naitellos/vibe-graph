@@ -1,0 +1,28 @@
+:root[data-theme="mystical"] {
+  --bg: #0e0d18;
+  --fg: #e8e3d1;
+  /* Raised surfaces (inputs, chips, dropdowns, cards) and hairline borders. */
+  --surface: #17152a;
+  --surface-raised: #1e1c33;
+  --border: #2c2a44;
+  --accent-primary: #d4a574;
+  --accent-warning: #e0c474;
+  --accent-danger: #d47474;
+  --accent-info: #74a5d4;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-body: Inter, -apple-system, "Segoe UI", system-ui, sans-serif;
+}
+
+:root[data-theme="minimal"] {
+  --bg: #0a0a0a;
+  --fg: #fafafa;
+  --surface: #161616;
+  --surface-raised: #1f1f1f;
+  --border: #2a2a2a;
+  --accent-primary: #fafafa;
+  --accent-warning: #e0c474;
+  --accent-danger: #d47474;
+  --accent-info: #74a5d4;
+  --font-display: Inter, -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-body: Inter, -apple-system, "Segoe UI", system-ui, sans-serif;
+}

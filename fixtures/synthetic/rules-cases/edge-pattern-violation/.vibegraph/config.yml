@@ -1,0 +1,24 @@
+project:
+  name: rules-edge-pattern-violation
+  root: .
+subsystemDetection:
+  mode: manual
+subsystems:
+  - id: domain
+    title: Domain
+    layer: domain
+    match: ["src/domain/**"]
+  - id: ui
+    title: UI
+    layer: horizontal
+    match: ["src/ui/**"]
+rules:
+  - id: builtin:no-layer-violation
+    kind: edge-pattern
+    title: Domain must not depend on horizontal (UI) layer
+    severity: medium
+    mode: enforce
+    from: { layer: domain }
+    to: { layer: horizontal }
+    relation: depends_on
+    forbidden: true

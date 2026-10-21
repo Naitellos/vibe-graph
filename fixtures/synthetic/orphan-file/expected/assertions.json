@@ -1,0 +1,12 @@
+{
+  "mustHaveEdges": [],
+  "mustHaveFindings": [
+    { "type": "orphan", "involvedNodeIds": ["subsystem:main"] },
+    { "type": "orphan", "involvedNodeIds": ["subsystem:extra"] }
+  ],
+  "mustNotHaveEdges": [
+    ["subsystem:main", "subsystem:extra", "depends_on"],
+    ["subsystem:extra", "subsystem:main", "depends_on"]
+  ],
+  "mustNotHaveFindings": []
+}

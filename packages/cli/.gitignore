@@ -1,0 +1,2 @@
+# Build output (root .gitignore also covers this)
+dist/

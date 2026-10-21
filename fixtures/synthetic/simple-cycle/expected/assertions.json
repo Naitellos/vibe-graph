@@ -1,0 +1,13 @@
+{
+  "mustHaveEdges": [
+    ["file:src/auth/login.ts", "file:src/billing/index.ts", "imports"],
+    ["file:src/billing/charge.ts", "file:src/auth/index.ts", "imports"],
+    ["subsystem:auth", "subsystem:billing", "depends_on"],
+    ["subsystem:billing", "subsystem:auth", "depends_on"]
+  ],
+  "mustHaveFindings": [
+    { "type": "cycle", "involvedNodeIds": ["subsystem:auth", "subsystem:billing"] }
+  ],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": []
+}

@@ -1,0 +1,6 @@
+id: alpha
+title: Alpha
+layer: domain
+match: src/a.ts
+depends_on:
+  - beta

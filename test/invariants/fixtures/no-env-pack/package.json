@@ -1,0 +1,7 @@
+{
+  "name": "no-env-pack-fixture",
+  "version": "0.0.0",
+  "description": "Fixture for context-pack-no-env invariant test",
+  "type": "module",
+  "dependencies": {}
+}

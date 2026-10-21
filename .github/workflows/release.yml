@@ -1,0 +1,168 @@
+name: Release
+
+# Manual-only trigger. Tags are pushed automatically by `pnpm changeset publish`,
+# which reads .changeset/ entries and bumps + tags + publishes the fixed
+# @codearch/core + @codearch/mcp + @codearch/cli package group.
+on:
+  workflow_dispatch:
+    inputs:
+      otp:
+        description: 'npm 2FA OTP (optional, for publishing if 2FA required)'
+        required: false
+        type: string
+
+# `changeset publish` writes tags and the publish workflow may need to push them.
+# NPM_TOKEN must be set as a GitHub repo secret (Settings > Secrets > Actions).
+permissions:
+  contents: write
+  id-token: write # for npm provenance (npm 9+, --provenance)
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history for changesets to compute diffs
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure git identity
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test (unit)
+        run: pnpm test:unit
+
+      - name: Test (fixtures)
+        run: pnpm test:fixtures
+
+      - name: Test (mcp)
+        run: pnpm test:mcp
+
+      - name: Test (ui — vitest)
+        run: pnpm vitest run --project ui --passWithNoTests
+
+      - name: Test (ui — playwright smoke)
+        run: pnpm --filter @codearch/ui test:e2e
+
+      - name: Test (invariants)
+        run: pnpm test:invariants
+
+      - name: Test (e2e)
+        run: pnpm test:e2e
+
+      - name: npm pack smoke — verify the published artifact installs and runs
+        run: |
+          set -euo pipefail
+          # Build the tarball
+          cd packages/cli
+          npm pack
+          # For @codearch/cli npm produces codearch-cli-<version>.tgz.
+          TGZ_NAME=$(find . -maxdepth 1 -name 'codearch-cli-*.tgz' -print -quit)
+          if [ -z "$TGZ_NAME" ]; then
+            echo "No tarball produced by npm pack" >&2
+            exit 1
+          fi
+          TGZ_ABS="$PWD/$TGZ_NAME"
+          echo "Tarball: $TGZ_ABS"
+          cd - >/dev/null
+
+          # Test 1: install + --version in a fresh tmp project
+          INSTALL_DIR=$(mktemp -d)
+          pushd "$INSTALL_DIR" >/dev/null
+          npm init -y >/dev/null
+          npm install "$TGZ_ABS" >/dev/null
+          npx @codearch/cli --version
+          popd >/dev/null
+
+          # Test 2: init --yes inside a fresh project tree
+          INIT_DIR=$(mktemp -d)
+          pushd "$INIT_DIR" >/dev/null
+          npm init -y >/dev/null
+          npm install "$TGZ_ABS" >/dev/null
+          npx @codearch/cli init --yes
+          # Sanity check: the init step should produce .vibegraph/config.yml
+          test -f .vibegraph/config.yml
+          popd >/dev/null
+
+          # Test 3: the packed artifact contains a working self-contained MCP
+          # stdio server (not just the top-level CLI entrypoint).
+          node .github/scripts/verify-mcp-stdio.mjs \
+            "$INIT_DIR/node_modules/@codearch/cli/dist/bin.js" "$INIT_DIR"
+
+          # Cleanup
+          rm -rf "$INSTALL_DIR" "$INIT_DIR"
+
+      - name: Publish via changesets (versions + tags + npm publish)
+        env:
+          # NPM_TOKEN must be set as a GitHub repo secret:
+          #   Settings > Secrets and variables > Actions > New repository secret
+          #   Name: NPM_TOKEN, Value: npm token with publish scope
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
+          OTP_INPUT: ${{ inputs.otp }}
+        run: |
+          set -euo pipefail
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          pnpm changeset version
+          pnpm install --no-frozen-lockfile # update lockfile after version bump
+          if [ -n "$OTP_INPUT" ]; then
+            pnpm changeset publish --otp="$OTP_INPUT"
+          else
+            pnpm changeset publish
+          fi
+
+      - name: Push version commits + tags
+        run: |
+          set -euo pipefail
+          # changeset version creates uncommitted changes; commit then push with tags
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: release [skip ci]"
+          git push --follow-tags
+
+      - name: Build plugin marketplace tarball
+        run: |
+          cd packages/plugin
+          PLUGIN_VERSION=$(node -p "require('./package.json').version")
+          CLI_VERSION=$(node -p "require('../cli/package.json').version")
+          tar czf "../../vibe-graph-plugin-${PLUGIN_VERSION}.tar.gz" \
+            --exclude=node_modules --exclude=.git \
+            .claude-plugin commands skills README.md package.json
+          echo "PLUGIN_TARBALL=vibe-graph-plugin-${PLUGIN_VERSION}.tar.gz" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=@codearch/cli@${CLI_VERSION}" >> "$GITHUB_ENV"
+
+      - name: Attach plugin tarball to GitHub Release
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.PLUGIN_TARBALL }}
+          tag_name: ${{ env.RELEASE_TAG }}

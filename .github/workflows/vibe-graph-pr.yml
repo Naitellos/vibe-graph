@@ -1,0 +1,110 @@
+name: Vibe Graph PR Check
+
+on:
+  pull_request:
+
+# Least privilege at the top: default everything to read. The comment job
+# opts UP to pull-requests: write for itself only. The report job (which runs
+# untrusted PR code) never gets a write token.
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with: { version: 9.15.0 }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Scan
+        run: node packages/cli/dist/bin.js scan
+
+      - name: Check (markdown report)
+        # --mode advisory: findings never exit 1. NO `|| true` — a genuine error
+        # (missing graph, crash, formatter regression) exits 1 and fails this job
+        # loudly instead of being masked. On error the command still writes the
+        # markdown error block (Task 4), so the artifact is always present.
+        run: node packages/cli/dist/bin.js check --markdown --mode advisory > vibe-graph-report.md
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vibe-graph-report
+          path: vibe-graph-report.md
+          retention-days: 1
+
+  comment:
+    needs: report
+    runs-on: ubuntu-latest
+    # Skip fork PRs (read-only GITHUB_TOKEN → 403) and Dependabot. Same-repo
+    # branches get the comment. Never use pull_request_target (would run
+    # untrusted PR code with write — prompt-injection risk).
+    if: >-
+      always() &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # NOTE: no checkout — this job must not run PR code. It only handles the
+      # sanitized report artifact + the GitHub API.
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vibe-graph-report
+
+      - name: Upsert PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let raw = '';
+            try {
+              raw = fs.readFileSync('vibe-graph-report.md', 'utf8');
+            } catch {
+              core.setFailed('vibe-graph report artifact missing');
+              return;
+            }
+            // Start from the report header in case anything leaked to stdout.
+            // If the header is absent the report is corrupt/partial — fail loudly
+            // rather than post a markerless body (which would defeat the
+            // find-and-update dedupe and spawn duplicate comments on re-runs).
+            const headerIdx = raw.indexOf('## 🔭 Vibe Graph');
+            if (headerIdx < 0) {
+              core.setFailed('vibe-graph report has no recognizable header; not posting a markerless comment');
+              return;
+            }
+            const body = raw.slice(headerIdx);
+            const marker = '<!-- vibe-graph-check -->';
+            if (!body.includes(marker)) {
+              core.setFailed('vibe-graph report body is missing the dedupe marker; refusing to post a markerless comment (would spawn duplicates on re-runs)');
+              return;
+            }
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner, repo, issue_number, per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }

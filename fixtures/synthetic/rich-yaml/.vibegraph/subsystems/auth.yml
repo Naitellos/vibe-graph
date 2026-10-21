@@ -1,0 +1,19 @@
+id: auth
+title: Authentication
+layer: horizontal
+status: shipped
+description: |
+  Auth provides JWT issuance and validation.
+last_verified: "2026-05-26"
+verified_by: claude-sonnet-4-7
+match:
+  - src/auth/**
+depends_on: []
+consumed_by:
+  - payments
+  - dashboard
+schema_tables:
+  - users
+related_specs: []
+related_decisions: []
+memory_refs: []

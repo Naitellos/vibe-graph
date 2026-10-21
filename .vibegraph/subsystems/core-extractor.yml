@@ -1,0 +1,29 @@
+id: core-extractor
+title: "core · code extractor (AST scan pipeline)"
+layer: domain
+status: shipped
+description: |
+  The code-extraction half of @codearch/core (product-definition §8.5):
+  turns a TypeScript/JavaScript codebase into graph nodes/edges/evidence.
+  Owns:
+  - Scan pipeline orchestrator, Stages 0-4 (scan/)
+  - Source analyzers: files, packages, ts-imports, yaml-edges, tables,
+    subsystems coordinator, semantic collapse (analyzers/)
+  - File discovery, ignore matcher, TS program manager (analyzers/)
+
+  May import the neutral engine (schemas, config, detectors, rules) — the
+  forbidden direction is engine → extractor, per the core-neutrality rule.
+last_verified: "2026-07-12"
+verified_by: claude-fable-5
+match:
+  - packages/core/src/scan/**
+  - packages/core/src/analyzers/**
+depends_on:
+  - core-engine
+consumed_by:
+  - cli
+  - mcp
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

@@ -1,0 +1,18 @@
+id: dashboard
+title: Dashboard
+layer: domain
+status: shipped
+description: |
+  Dashboard renders the user-facing payment and account UI.
+last_verified: "2026-05-26"
+verified_by: claude-sonnet-4-7
+match:
+  - src/dashboard/**
+depends_on:
+  - auth
+  - payments
+consumed_by: []
+schema_tables: []
+related_specs: []
+related_decisions: []
+memory_refs: []

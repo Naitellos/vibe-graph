@@ -1,0 +1,27 @@
+/* CenterWorkspace — fills the center panel, stacks WorkspaceSelector + GraphCanvas vertically. */
+
+.center-workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* WorkspaceSelector — fixed-height row at the top */
+.center-workspace > [data-testid="workspace-selector"] {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg, #e8e3d1) 12%, transparent 88%);
+}
+
+/* Canvas wrapper — fills remaining vertical space and constrains the SVG so it
+   can honor its width:100%/height:100% rules without overflowing the viewport. */
+.vg-canvas-wrapper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}

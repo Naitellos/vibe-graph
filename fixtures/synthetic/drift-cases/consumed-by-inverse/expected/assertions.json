@@ -1,0 +1,9 @@
+{
+  "mustHaveEdges": [],
+  "mustHaveFindings": [],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": [
+    { "type": "stale", "involvedNodeIds": ["subsystem:alpha", "subsystem:beta"] },
+    { "type": "undeclared", "involvedNodeIds": ["subsystem:alpha", "subsystem:beta"] }
+  ]
+}

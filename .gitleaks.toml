@@ -1,0 +1,19 @@
+# Gitleaks config for the repository's secret scan.
+# Every path below contains DELIBERATELY FAKE secrets: fixtures for the
+# redact-secrets feature's own tests (the product redacts secrets, so its
+# tests must contain fake ones) and one example snippet in a historical plan.
+# Verified synthetic 2026-07-12: jwt.io demo token, sk-abc…/sk-1234… dummies,
+# private key truncated with a literal "...".
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic secrets: redaction test fixtures and plan-doc examples"
+paths = [
+  '''packages/core/src/helpers/redact-secrets\.test\.ts''',
+  '''packages/core/src/helpers/context-pack-builder\.test\.ts''',
+  '''packages/mcp/src/middleware/activity-log\.test\.ts''',
+  '''packages/mcp/src/tools/get-context-pack\.test\.ts''',
+  '''docs/superpowers/plans/2026-05-28-vibegraph-mvp-plan-4-cockpit-change-activity\.md''',
+]

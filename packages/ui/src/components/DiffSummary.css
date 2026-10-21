@@ -1,0 +1,66 @@
+/* DiffSummary — compact horizontal bar shown above the map canvas when a diff is active. */
+
+.diff-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px;
+  font-size: 12px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border, #2c2a44);
+  background: var(--surface, #17152a);
+  flex-wrap: wrap;
+}
+
+.diff-summary__status {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+}
+
+.diff-summary__status--violation {
+  color: var(--accent-danger, #e05a5a);
+  border-color: var(--accent-danger, #e05a5a);
+}
+
+.diff-summary__status--warn {
+  color: var(--accent-warning, #d4a029);
+  border-color: var(--accent-warning, #d4a029);
+}
+
+.diff-summary__status--ok {
+  color: var(--accent-info, #5ab0e0);
+  border-color: var(--accent-info, #5ab0e0);
+}
+
+.diff-summary__counts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  opacity: 0.9;
+}
+
+.diff-summary__no-changes {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.diff-summary__headline {
+  /* The curative "new coupling/cycle" signal — a full-width prominent top line. */
+  flex: 0 0 100%;
+  font-weight: 500;
+  color: var(--text, #e6e3f5);
+  line-height: 1.4;
+}
+
+.diff-summary__clear {
+  margin-left: auto;
+}

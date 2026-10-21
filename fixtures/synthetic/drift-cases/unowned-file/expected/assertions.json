@@ -1,0 +1,10 @@
+{
+  "mustHaveEdges": [],
+  "mustHaveFindings": [
+    { "type": "unowned", "involvedNodeIds": ["file:src/orphan.ts"] }
+  ],
+  "mustNotHaveEdges": [],
+  "mustNotHaveFindings": [
+    { "type": "unowned", "involvedNodeIds": ["file:src/a.ts"] }
+  ]
+}

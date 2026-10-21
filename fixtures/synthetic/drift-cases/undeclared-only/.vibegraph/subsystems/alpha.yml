@@ -1,0 +1,4 @@
+id: alpha
+title: Alpha
+layer: domain
+match: src/a.ts
