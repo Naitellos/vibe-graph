@@ -1,5 +1,18 @@
 # @codearch/core
 
+## 0.1.4
+
+### Patch Changes
+
+- 3c82148: Replace `fast-glob` and `micromatch` with `tinyglobby` and `picomatch`, which
+  removes `braces` (GHSA-vfj7-8cjw-p6xm, no upstream fix) from the production
+  dependency tree, so `npm audit` on install no longer reports it. File
+  discovery, workspace globs (including symlinked workspace directories, negated
+  entries and trailing `**`) and subsystem `match` globs resolve exactly as
+  before.
+- 112d422: Package metadata (`repository`, `homepage`, `bugs`) now points to the
+  public GitHub repository, so the npm page links to the source and issue tracker.
+
 ## 0.1.3
 
 ### Patch Changes

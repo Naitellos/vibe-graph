@@ -1,5 +1,13 @@
 # @codearch/plugin
 
+## 0.1.2
+
+### Patch Changes
+
+- Pin the hook and the MCP server to `@codearch/cli@0.1.4`, which drops `braces`
+  from the production dependency tree (`npm audit` on install is clean) and
+  bundles MCP SDK 1.32.1.
+
 ## 0.1.1
 
 ### Patch Changes
