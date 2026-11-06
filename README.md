@@ -10,11 +10,12 @@ violation. Nothing to write, nothing to maintain, nothing leaves your machine.
 
 TS/JS · one command in Claude Code · MIT · no account, no cloud, no telemetry.
 
-> Status: **alpha.** Works today as a Claude Code plugin and a standalone CLI/MCP server.
+> Status: **parked (October 2026).** 0.1.4 stays published and works as described below —
+> as a Claude Code plugin and a standalone CLI/MCP server — but no new features are planned
+> and issues may go unanswered. A follow-up experiment (checking what docs and agents claim
+> against the code) was measured against a bar fixed before the measurement and did not clear
+> it, so development is paused rather than pushed on.
 > Read [Known issues](#known-issues) before you judge it.
-
-> _Team edition — shared baseline + PR check, $19/dev/mo — [join the waitlist](https://github.com/Naitellos/vibe-graph/discussions)._
-> Nothing is built yet; the waitlist is how I decide whether to build it.
 
 ---
 
